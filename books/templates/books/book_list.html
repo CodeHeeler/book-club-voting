@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="{% url 'new_book' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit" />
+</form>
+
+{% for book in books %}
+    <div class="book-row">
+    {% if book.link %}<a href="{{ book.link }}">{% endif %}
+    <h3>{{ book.title }}</h3>
+    <h4>{{ book.author }}</h4>
+    {% if book.link %}</a>{% endif %}
+    </div>
+{% endfor %}
+
+{% endblock %}

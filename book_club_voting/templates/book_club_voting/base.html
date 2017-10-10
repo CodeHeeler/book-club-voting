@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Club Voting</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style>
+        .book-row {
+            border: solid;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+<a href="{% url 'open_election_list' %}">Election List</a>
+*
+<a href="{% url 'book_list' %}">Book List</a>
+<hr>
+
+{% block content %}
+
+{% endblock %}
+
+</body>
+</html>

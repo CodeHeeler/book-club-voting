@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% for election in elections %}
+<div class="election-row">
+<a href="{% url 'election_detail' election.id %}">{{ election.name }}</a>
+</div>
+{% endfor %}
+
+<form action="{% url 'new_election' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit" />
+</form>
+
+{% endblock %}

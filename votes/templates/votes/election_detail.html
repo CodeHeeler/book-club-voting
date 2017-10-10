@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ election.name }}</h2>
+<div>
+    {% if election.is_open or election.is_closed %}
+    Election opened as of:
+    {% else %}
+    Election will open as of:
+    {% endif %}
+    {{ election.open }}
+</div>
+<div>
+    {% if election.is_closed %}
+    Election closed as of:
+    {{ election.close }}
+    {% elif election.close %}
+    Election will close on:
+    {{ election.close }}
+    {% else %}
+    This election has no defined close date.
+    {% endif %}
+</div>
+{% if election.is_open %}
+<form action="{% url 'close_election' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="election_id" value="{{ election.id }}">
+    <input type="submit" value="End Election Now">
+</form>
+{% endif %}
+
+{% if election.is_closed %}
+<h1>Winner:</h1>
+<h2>{{ election.winner }}</h2>
+{% else %}
+<ul id="option-list">
+{% for option in election.candidates.all %}
+<li id="{{ option.id }}">{{ option }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+<form action="{% url "create_ballot" %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="selections" id="selections">
+    <input type="hidden" name="election_id" value="{{ election.id }}">
+    <input type="submit" value="Submit Vote">
+</form>
+
+<script>
+    $("#option-list").sortable({
+        create: function (event, ui) {
+            var selections = $(this).sortable('toArray');
+            $('#selections').val(selections);
+        },
+        update: function (event, ui) {
+            var selections = $(this).sortable('toArray');
+            $('#selections').val(selections);
+        }
+    });
+</script>
+{% endblock %}
