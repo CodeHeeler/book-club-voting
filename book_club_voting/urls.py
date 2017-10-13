@@ -28,5 +28,6 @@ urlpatterns = [
     url(r'^vote$', vote_views.create_ballot, name='create_ballot'),
     url(r'^books', book_views.book_list, name='book_list'),
     url(r'^book$', book_views.new_book, name='new_book'),
+    url(r'^book/(?P<book_id>[0-9]+)/edit', book_views.book_edit_view, name='book_edit'),
     url(r'^admin/', admin.site.urls),
 ]
