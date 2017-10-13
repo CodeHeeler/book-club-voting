@@ -15,6 +15,7 @@
     <h4>{{ book.author }}</h4>
     {% if book.link %}</a>{% endif %}
     <a href="{% url 'book_edit' book.id %}"><button>Edit book</button></a>
+    <a href="{% url 'book_delete' book.id %}"><button>Delete book</button></a>
     </div>
 {% endfor %}
 
