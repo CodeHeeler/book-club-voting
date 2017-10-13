@@ -19,6 +19,16 @@ def book_edit_view (request, book_id):
         })
 
 
+def book_delete_view (request, book_id):
+    if request.method == 'POST':
+        book = get_object_or_404(Book, id=book_id)
+        book.delete()
+        return redirect('book_list')
+    else:
+        book = get_object_or_404(Book, id=book_id)
+        return render(request, "books/book_delete.html", {"book":book})
+
+
 def book_list(request):
     return render(request, 'books/book_list.html', {
         'books': Book.objects.all(),
