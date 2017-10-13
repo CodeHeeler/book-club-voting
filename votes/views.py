@@ -88,3 +88,12 @@ def close_election(request):
         election.save()
         return redirect('election_detail', election_id=election.id)
     return redirect('/')
+
+
+def delete_election(request, election_id):
+    election = get_object_or_404(Election, id=election_id)
+    if request.method == 'POST':
+        election.delete()
+        return redirect('/')
+    else:
+        return render(request, "votes/election_delete.html", {'election': election})

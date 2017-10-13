@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1>Delete Election</h1>
+    <h2>You are about to permanently delete the following election:</h2>
+    <h3>{{ election.name }}</h3>
+    {% if election.not_opened %}
+    This election was not opened for voting
+    {% elif election.is_open %}
+    This election opened for voting on {{ election.open }}
+    {% else %}
+    This election closed on {{ election.close }}
+    {% endif %}
+        <br>
+    {% if election.winner %}
+    The winner was {{ election.winner }}
+    {% endif %}
+    <form action="{% url "delete_election" election.id %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Delete">
+    </form>
+{% endblock %}
