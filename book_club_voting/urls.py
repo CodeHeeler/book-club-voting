@@ -22,7 +22,8 @@ from books import views as book_views
 urlpatterns = [
     url(r'^$', vote_views.open_elections_list, name='open_election_list'),
     url(r'^election$', vote_views.new_election, name='new_election'),
-    url(r'^election/(?P<election_id>[0-9]+)', vote_views.election_detail_view, name='election_detail'),
+    url(r'^election/(?P<election_id>[0-9]+)$', vote_views.election_detail_view, name='election_detail'),
+    url(r'^election/(?P<election_id>[0-9]+)/edit', vote_views.election_edit_view, name='election_edit'),
     url(r'^close_voting$', vote_views.close_election, name='close_election'),
     url(r'^vote$', vote_views.create_ballot, name='create_ballot'),
     url(r'^books', book_views.book_list, name='book_list'),
