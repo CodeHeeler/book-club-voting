@@ -48,6 +48,7 @@ def election_edit_view(request, election_id):
                 election.candidates.add(
                     Book.objects.get(id=book_id)
                 )
+        return redirect(election_detail_view(request, election_id))
     return render(request, "votes/election_edit.html", {
         'election': election,
         'all_books': Book.objects.all(),
@@ -70,6 +71,18 @@ def create_ballot(request):
         vote.save()
         return redirect('election_detail', election_id=election.id)
     return redirect('/')
+
+
+def open_election(request):
+    import ipdb
+    ipdb.set_trace()
+    if request.method == 'POST':
+        election = get_object_or_404(Election, id=request.POST.get('election_id', ''))
+        election.open = timezone.now()
+        election.save()
+        return redirect('election_detail', election_id=election.id)
+    else:
+        return redirect('/')
 
 
 def close_election(request):
