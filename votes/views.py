@@ -32,8 +32,6 @@ def election_detail_view(request, election_id):
 
 
 def election_edit_view(request, election_id):
-    # import ipdb
-    # ipdb.set_trace()
     election = get_object_or_404(Election, id=election_id)
     if election.is_open or election.is_closed:
         return redirect(election_detail_view(request, election_id))
@@ -74,8 +72,6 @@ def create_ballot(request):
 
 
 def open_election(request):
-    import ipdb
-    ipdb.set_trace()
     if request.method == 'POST':
         election = get_object_or_404(Election, id=request.POST.get('election_id', ''))
         election.open = timezone.now()
