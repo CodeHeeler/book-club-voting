@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Current Candidates</h2>
+<ul>
+{% for option in election.candidates.all %}
+<li id="{{ option.id }}">{{ option }}</li>
+{% endfor %}
+</ul>
+
+    <form action="{% url 'election_edit' election.id %}" method="post">
+    {% csrf_token %}
+        <input type="submit" value="Save Changes">
+        <ul>
+        {% for book in all_books %}
+            <li>
+            <input type="checkbox" name="books" value="{{ book.id }}" {% if book in election.candidates.all %}checked="checked"{% endif %}>
+            {{ book.title }} by {{ book.author }}
+            </li>
+        {% endfor %}
+        </ul>
+        <input type="submit" value="Save Changes">
+    </form>
+{% endblock %}

@@ -5,10 +5,13 @@
 <div>
     {% if election.is_open or election.is_closed %}
     Election opened as of:
+    {{ election.open }}
     {% else %}
     Election will open as of:
-    {% endif %}
     {{ election.open }}
+        <br>
+        <a href="{% url 'election_edit' election.id %}"><button>Add books to list</button></a>
+    {% endif %}
 </div>
 <div>
     {% if election.is_closed %}
