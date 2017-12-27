@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from django.shortcuts import get_object_or_404
+from django.http import HttpResponseBadRequest
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 
 from books.models import Book
@@ -64,10 +64,14 @@ def new_election(request):
 def create_ballot(request):
     if request.method == 'POST':
         election = get_object_or_404(Election, id=request.POST['election_id'])
-        selections = request.POST['selections'].split(',')
-        vote = Ballot(election=election, selections=selections)
-        vote.save()
-        return redirect('election_detail', election_id=election.id)
+        if election.is_open:
+            selections = request.POST['selections'].split(',')
+            vote = Ballot(election=election, selections=selections)
+            vote.save()
+            return redirect('election_detail', election_id=election.id)
+        else:
+            # someone is trying to submit a vote to a closed election
+            return HttpResponseBadRequest
     return redirect('/')
 
 
