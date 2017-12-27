@@ -11,7 +11,7 @@ class Election(models.Model):
     # then the election is open.
     close = models.DateTimeField(null=True, blank=True)
     candidates = models.ManyToManyField('books.Book', blank=True)
-    winner = models.ForeignKey('books.Book', null=True, blank=True, related_name='election_won')
+    winner = models.CharField(max_length=1024, null=True, blank=True)
 
     @property
     def is_closed(self):
