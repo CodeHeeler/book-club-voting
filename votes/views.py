@@ -46,7 +46,7 @@ def election_edit_view(request, election_id):
                 election.candidates.add(
                     Book.objects.get(id=book_id)
                 )
-        return redirect(election_detail_view(request, election_id))
+        return election_detail_view(request, election_id)
     return render(request, "votes/election_edit.html", {
         'election': election,
         'all_books': Book.objects.all(),
