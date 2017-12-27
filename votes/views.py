@@ -31,6 +31,28 @@ def election_detail_view(request, election_id):
     return render(request, "votes/election_detail.html", {'election': election})
 
 
+def election_edit_view(request, election_id):
+    election = get_object_or_404(Election, id=election_id)
+    if election.is_open or election.is_closed:
+        return redirect(election_detail_view(request, election_id))
+    if request.method == 'POST' and 'books' in request.POST:
+        # Remove any books not checked
+        for book in election.candidates.all():
+            if str(book.id) not in request.POST.getlist('books'):
+                election.candidates.remove(book)
+        # add any new books
+        for book_id in request.POST.getlist('books'):
+            if not election.candidates.filter(id=book_id).exists():
+                election.candidates.add(
+                    Book.objects.get(id=book_id)
+                )
+        return redirect(election_detail_view(request, election_id))
+    return render(request, "votes/election_edit.html", {
+        'election': election,
+        'all_books': Book.objects.all(),
+    })
+
+
 def new_election(request):
     if request.method == 'POST':
         form = ElectionForm(request.POST)
@@ -49,6 +71,16 @@ def create_ballot(request):
     return redirect('/')
 
 
+def open_election(request):
+    if request.method == 'POST':
+        election = get_object_or_404(Election, id=request.POST.get('election_id', ''))
+        election.open = timezone.now()
+        election.save()
+        return redirect('election_detail', election_id=election.id)
+    else:
+        return redirect('/')
+
+
 def close_election(request):
     if request.method == 'POST':
         election = get_object_or_404(Election, id=request.POST['election_id'])
@@ -56,3 +88,12 @@ def close_election(request):
         election.save()
         return redirect('election_detail', election_id=election.id)
     return redirect('/')
+
+
+def delete_election(request, election_id):
+    election = get_object_or_404(Election, id=election_id)
+    if request.method == 'POST':
+        election.delete()
+        return redirect('/')
+    else:
+        return render(request, "votes/election_delete.html", {'election': election})

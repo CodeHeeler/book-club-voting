@@ -5,10 +5,23 @@
 <div>
     {% if election.is_open or election.is_closed %}
     Election opened as of:
-    {% else %}
-    Election will open as of:
-    {% endif %}
     {{ election.open }}
+    {% elif election.open %}
+    Election will open as of:
+    {{ election.open }}
+    {% else %}
+    This election has no defined open date.
+    {% endif %}
+    {% if election.not_opened %}
+        <br>
+        <a href="{% url 'election_edit' election.id %}"><button>Add books to list</button></a>
+        <br>
+        <form action="{% url 'open_election'%}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="election_id" value="{{ election.id }}">
+            <input type="submit" value="Open Now">
+        </form>
+    {% endif %}
 </div>
 <div>
     {% if election.is_closed %}

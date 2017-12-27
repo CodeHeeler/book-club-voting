@@ -5,6 +5,7 @@
 {% for election in elections %}
 <div class="election-row">
 <a href="{% url 'election_detail' election.id %}">{{ election.name }}</a>
+    (<a style="color:red;" href="{% url 'delete_election' election.id %}">Delete</a>)
 </div>
 {% endfor %}
 
