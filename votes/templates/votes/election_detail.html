@@ -53,12 +53,14 @@
 </ul>
 {% endif %}
 
+{% if election.is_open %}
 <form action="{% url "create_ballot" %}" method="post">
     {% csrf_token %}
     <input type="hidden" name="selections" id="selections">
     <input type="hidden" name="election_id" value="{{ election.id }}">
     <input type="submit" value="Submit Vote">
 </form>
+{% endif %}
 
 <script>
     $("#option-list").sortable({
