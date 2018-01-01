@@ -6,5 +6,9 @@ class Book(models.Model):
     author = models.CharField(max_length=100, blank=True)
     link = models.URLField(blank=True)
 
+    @property
+    def as_string(self):
+        return str(self)
+
     def __str__(self):
         return self.title + ' by ' + self.author

@@ -1,14 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+<h2>Add New Book</h2>
 <form action="{% url 'new_book' %}" method="post">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Submit" />
 </form>
 
-{% for book in books %}
+<h2>Search Books</h2>
+<form action="" method="get">
+        {{ filter.form.as_p }}
+        <input type="submit" />
+    </form>
+
+{% for book in filter.qs %}
     <div class="book-row">
     {% if book.link %}<a href="{{ book.link }}">{% endif %}
     <h3>{{ book.title }}</h3>

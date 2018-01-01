@@ -1,7 +1,5 @@
 from django.test import TestCase
-from django.utils import timezone
 from .helpers import find_winner
-from .models import Election
 
 
 class VoteCount(TestCase):
@@ -32,4 +30,3 @@ class VoteCount(TestCase):
             self.assertIn('a', winner)
             self.assertIn('c', winner)
             self.assertEqual(2, len(winner))
-

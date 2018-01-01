@@ -22,12 +22,8 @@ def election_detail_view(request, election_id):
     election = get_object_or_404(Election, id=election_id)
     # See if a winner needs to be selected
     if election.is_closed and election.winner is None:
-        winner = find_winner(gather_ballots(election), election.candidates.count())
-        if len(winner) == 1:
-            election.winner = Book.objects.get(id=int(winner[0]))
-        else:
-            # There is more than one winner; kick off a runoff election
-            pass
+        winners = find_winner(gather_ballots(election), election.candidates.count())
+        election.winner = str(Book.objects.get(id=int(winners[0])))
     return render(request, "votes/election_detail.html", {'election': election})
 
 
