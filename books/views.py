@@ -33,17 +33,18 @@ def book_delete_view (request, book_id):
 
 def book_list(request):
     filter = BookFilter(request.GET, queryset=Book.objects.all())
-    paginator = Paginator(filter.qs, 20)
+    paginator = Paginator(filter.qs, 2)
     page = request.GET.get('page')
     try:
-        filter.qs = paginator.page(page)
+        books = paginator.page(page)
     except PageNotAnInteger:
-        filter.qs = paginator.page(1)
+        books = paginator.page(1)
     except EmptyPage:
-        filter.qs = paginator.page(paginator.num_pages)
+        books = paginator.page(paginator.num_pages)
     filter = BookFilter(request.GET, queryset=Book.objects.all())
     return render(request, 'books/book_list.html', {
         'filter': filter,
+        'books': books,
         'form': BookForm(),
     })
 

@@ -14,7 +14,7 @@
         <input type="submit" />
     </form>
 
-{% for book in filter.qs %}
+{% for book in books %}
     <div class="book-row">
     {% if book.link %}<a href="{{ book.link }}">{% endif %}
     <h3>{{ book.title }}</h3>
