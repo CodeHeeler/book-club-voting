@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Book
 from .forms import BookForm
+from .filters import BookFilter
 
 
 def book_edit_view (request, book_id):
@@ -30,8 +31,9 @@ def book_delete_view (request, book_id):
 
 
 def book_list(request):
+    filter = BookFilter(request.GET, queryset=Book.objects.all())
     return render(request, 'books/book_list.html', {
-        'books': Book.objects.all(),
+        'filter': filter,
         'form': BookForm(),
     })
 
